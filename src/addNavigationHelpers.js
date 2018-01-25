@@ -4,6 +4,7 @@ import NavigationActions from './NavigationActions';
 import invariant from './utils/invariant';
 
 export default function(navigation) {
+  let debounce = false;
   return {
     ...navigation,
     goBack: key => {
@@ -19,10 +20,21 @@ export default function(navigation) {
         NavigationActions.back({ key: actualizedKey })
       );
     },
-    navigate: (routeName, params, action) =>
+    navigate: (routeName, params, action) =>{
+      if(debounce){
+        return false;
+      }
+
+      debounce = true;
       navigation.dispatch(
         NavigationActions.navigate({ routeName, params, action })
-      ),
+      );
+
+      setTimeout(() => {
+        debounce = false;
+      }, 1000);
+      return true;
+    },
     /**
      * For updating current route params. For example the nav bar title and
      * buttons are based on the route params.
