@@ -32,7 +32,7 @@ export default function(navigation) {
 
       setTimeout(() => {
         debounce = false;
-      }, 1000);
+      }, 2000);
       return true;
     },
     /**
